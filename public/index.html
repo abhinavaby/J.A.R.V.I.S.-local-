@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>J.A.R.V.I.S. — Local Intelligence</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23040d16' stroke='%2363e9ff' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%2363e9ff'/%3E%3Ccircle cx='27' cy='27' r='5' fill='%23eafcff'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="boot" class="boot">
+      <div class="boot-reactor">
+        <div class="boot-ring"></div>
+        <div class="boot-orb"></div>
+      </div>
+      <h1>J.A.R.V.I.S.</h1>
+      <p class="boot-sub">Just A Rather Very Intelligent System</p>
+      <button id="btnInit" class="init-btn">INITIALIZE</button>
+      <div class="boot-log" id="bootLog"></div>
+      <p class="boot-hint">Microphone access requested · Local Ollama core · macOS bridge</p>
+    </div>
+
+    <div id="app" class="app">
+      <div class="bg-grid"></div>
+      <div class="scanlines"></div>
+
+      <header class="header">
+        <div class="brand">
+          <span class="brand-mark">J</span>
+          <div>
+            <div class="brand-name">J.A.R.V.I.S.</div>
+            <div class="brand-sub">LOCAL INTELLIGENCE · MACOS BRIDGE</div>
+          </div>
+        </div>
+        <div class="header-right">
+          <button id="btnVoice" class="chip" title="Toggle spoken replies">VOICE: ON</button>
+          <button id="btnWake" class="chip on" title="Toggle wake-word listening">WAKE: ON</button>
+          <div class="conn" id="conn" title="Ollama connection">
+            <span class="dot"></span>
+            <span id="connLabel">CORE</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <aside class="panel left">
+          <h2>System Diagnostics</h2>
+          <div class="meters">
+            <div class="meter">
+              <div class="meter-head"><span>CPU</span><span id="cpuVal" class="meter-val">—</span></div>
+              <div class="meter-bar"><div id="cpuFill" class="meter-fill"></div></div>
+            </div>
+            <div class="meter">
+              <div class="meter-head"><span>MEMORY</span><span id="memVal" class="meter-val">—</span></div>
+              <div class="meter-bar"><div id="memFill" class="meter-fill"></div></div>
+            </div>
+            <div class="meter">
+              <div class="meter-head"><span>DISK</span><span id="diskVal" class="meter-val">—</span></div>
+              <div class="meter-bar"><div id="diskFill" class="meter-fill"></div></div>
+            </div>
+            <div class="meter">
+              <div class="meter-head"><span>BATTERY</span><span id="battVal" class="meter-val">—</span></div>
+              <div class="meter-bar"><div id="battFill" class="meter-fill"></div></div>
+            </div>
+            <div class="kv"><span>Uptime</span><span id="uptimeVal">—</span></div>
+            <div class="kv"><span>Host</span><span id="hostVal">—</span></div>
+          </div>
+
+          <h2>Neural Core</h2>
+          <label class="field">
+            <span>Model</span>
+            <select id="modelSelect"></select>
+          </label>
+
+          <h2>Protocol</h2>
+          <ul class="protocol">
+            <li><kbd>Space</kbd><span>hold to talk</span></li>
+            <li><kbd>Y</kbd><kbd>N</kbd><span>authorize / deny</span></li>
+            <li><kbd>Jarvis</kbd><span>wake word</span></li>
+          </ul>
+        </aside>
+
+        <section class="core">
+          <div class="reactor-wrap" id="reactorWrap" data-state="standby">
+            <div class="rings">
+              <div class="ring r1"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+              <div class="ticks"></div>
+            </div>
+            <div class="halo"></div>
+            <canvas id="viz"></canvas>
+            <div class="orb"><div class="orb-core"></div></div>
+          </div>
+
+          <div class="status-block">
+            <div id="status" class="status">STANDBY</div>
+            <div id="substatus" class="substatus">say “jarvis” or hold space</div>
+          </div>
+
+          <div class="transcript" id="transcript"></div>
+
+          <form class="composer" id="composer">
+            <span class="caret">&gt;</span>
+            <input
+              id="input"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Type a command, or hold space to speak…"
+            />
+            <button type="submit">TRANSMIT</button>
+          </form>
+        </section>
+
+        <aside class="panel right">
+          <h2>Activity</h2>
+          <div class="log" id="log">
+            <div class="log-empty">No actions yet. Ask me to open an app.</div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div id="modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-kicker">AUTHORIZATION REQUIRED</div>
+        <h3 id="modalTool">Tool</h3>
+        <pre id="modalSummary"></pre>
+        <p class="modal-note">Say “authorize” or “deny”, press Y / N, or choose below.</p>
+        <div class="modal-actions">
+          <button id="btnDeny" class="btn deny">DENY</button>
+          <button id="btnAuthorize" class="btn authorize">AUTHORIZE</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
